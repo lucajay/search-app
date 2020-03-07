@@ -12,7 +12,7 @@ function App() {
   let searchAPI = async (params) => {
     const type = params.type === 'all' ? '' : `&type=${params.type}`;
     const title = params.title;
-    const url = `http://www.omdbapi.com/?t=${title}${type}&apikey=34556779`;
+    const url = `https://www.omdbapi.com/?t=${title}${type}&apikey=34556779`;
     const result = await axios(
       url,
     );
@@ -37,7 +37,7 @@ function App() {
      if(localStorage.getItem('favourite')) {
       let favList = localStorage.getItem('favourite').split(',');
       await asyncForEach(favList, async (id) => {
-        const url = `http://www.omdbapi.com/?i=${id}&apikey=34556779`;
+        const url = `https://www.omdbapi.com/?i=${id}&apikey=34556779`;
         const result = await axios(
             url,
         );
