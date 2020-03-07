@@ -16,7 +16,6 @@ function App() {
     const result = await axios(
       url,
     );
-    console.log('data-->', result)
     if(result.data.Error){
       alert('Movie Not found')
     }else {
