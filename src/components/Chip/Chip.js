@@ -5,26 +5,30 @@ import Released from '../Released/Released';
 import FavouriteBtn from '../FavouriteBtn/FavouriteBtn';
 
 function Chip(props) {
-  return (
-    <div className="chip">
-        {props.data.Poster && props.data.Poster != 'N/A' && 
-            <img src={props.data.Poster} alt="Person" width="96" height="96">
-            </img>
-        }
-        <div className="description">
-            {props.data.Title && 
-                <Title title={props.data.Title}/>
+    let addLocalHandler = async () => {
+        console.log('add this item to local', props.data);
+        localStorage.setItem(props.data.imdbID, JSON.stringify(props.data));
+    }
+    
+    return (
+        <div className="chip">
+            {props.data.Poster && props.data.Poster != 'N/A' && 
+                <img src={props.data.Poster} alt="Person" width="96" height="96">
+                </img>
             }
-            {props.data.Released && 
-                <Released date={props.data.Released} />
-            }
-            {props.data.imdbID && 
-                <FavouriteBtn data={props.data} isFav={0}/>
-            }
+            <div className="description">
+                {props.data.Title && 
+                    <Title title={props.data.Title}/>
+                }
+                {props.data.Released && 
+                    <Released date={props.data.Released} />
+                }
+                {props.data.imdbID && 
+                    <FavouriteBtn data={props.data} addLocal={addLocalHandler} isFav={0}/>
+                }
+            </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default Chip;
-
