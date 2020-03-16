@@ -6,3 +6,9 @@
 .container {
   text-align: -webkit-center;
 }
+.page-button {
+  display: flex;
+  /* align-self: center; */
+  justify-content: space-around;
+  margin-bottom: 5%;
+}
