@@ -11,38 +11,46 @@ function FavouriteBtn(props) {
     let initialList = '';
     let initialValue = 0;
     
-    if(localStorage.getItem('favourite')) {
-        initialList = localStorage.getItem('favourite').split(',');
+    if(localStorage.getItem('list')) {
+        initialList = localStorage.getItem('list').split(',');
         initialValue = initialList.indexOf(props.data.imdbID) > -1 ? 1: 0;
         setFav(initialValue);
     }
   }, [props.data.imdbID]);
 
   const clickHandlder = (e) => {
-    const item = e.target.value;
-    const favValue = 1 - fav;
-    setFav(favValue);
-    if(favValue === 1){
-      if(!localStorage.getItem('favourite')) {
-        localStorage.setItem('favourite', item);
-      } else{
-        let listOfFav = localStorage.getItem('favourite').split(',')
-        let indexOfFav = listOfFav.indexOf(item);
-        let newListOfFav = `${localStorage.getItem('favourite')},${item}`;
-        if(indexOfFav < 0) {
-          localStorage.setItem('favourite', newListOfFav )
+      const item = e.target.value;
+
+      const favValue = 1 - fav;
+      setFav(favValue);
+
+      if(favValue === 1){
+        // For adding as favourite
+        if(!localStorage.getItem('list')) {
+          localStorage.setItem('list', id);
+        } else{ 
+          let listOfFav = localStorage.getItem('list').split(',');
+          let indexOfFav = listOfFav.indexOf(item);
+          if(indexOfFav < 0) {
+            let newListOfFav = `${localStorage.getItem('list')},${item}`;
+            localStorage.setItem('list', newListOfFav );
+          }
         }
+        props.addLocal();
+      }else{
+        // For removing from favourite
+        let listOfFav = localStorage.getItem('list').split(',')
+        let indexOfFav = listOfFav.indexOf(item);
+        listOfFav.splice(indexOfFav, indexOfFav + 1);
+        let newListOfFav = listOfFav;
+        localStorage.setItem('list', newListOfFav.join(',') )
+        localStorage.removeItem(id);
       }
-    }else{
-      let listOfFav = localStorage.getItem('favourite').split(',')
-      let indexOfFav = listOfFav.indexOf(item);
-      listOfFav.splice(indexOfFav, indexOfFav + 1);
-      let newListOfFav = listOfFav;
-      localStorage.setItem('favourite', newListOfFav.join(',') )
-    }
+
+      e.preventDefault();
   }
   return (
-  <button className="btn" value={id} onClick={clickHandlder}>{fav === 1 ? 'Added as Favourite' : 'Add as Favourite'}</button>
+  <button className="btn" value={id} onClick={clickHandlder}>{fav === 1 ? 'Added as favourite' : 'Add as favourite'}</button>
   );
 }
 
