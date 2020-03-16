@@ -6,7 +6,6 @@ import FavouriteBtn from '../FavouriteBtn/FavouriteBtn';
 
 function Chip(props) {
     let addLocalHandler = async () => {
-        console.log('add this item to local', props.data);
         localStorage.setItem(props.data.imdbID, JSON.stringify(props.data));
     }
     
