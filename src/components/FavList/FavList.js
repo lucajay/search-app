@@ -7,7 +7,6 @@ function FavList(props) {
   const [ data, setData ] = useState([]);
   useEffect(() => {
     const listArray = localStorage.getItem('list') ? localStorage.getItem('list').split(',') : [];
-    console.log('listArray--->', listArray)
     const favArray = []
     listArray.map((listItem) => {
       favArray.push(JSON.parse(localStorage.getItem(listItem)));
