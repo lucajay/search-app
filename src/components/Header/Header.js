@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 
-function Header(props) {
+function Header() {
 
   return (
     <header className="App-header">
@@ -10,7 +10,7 @@ function Header(props) {
         <a className="nav-btn" href="/">Home</a>
         </div>
         <div className="nav-right">
-          <a className="nav-btn" href='/fav'>Favourite</a>
+          <a className="nav-btn" href='/favourites'>Favourite</a>
         </div>
       </div>
   </header>
