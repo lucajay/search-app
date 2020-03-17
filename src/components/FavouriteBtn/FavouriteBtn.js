@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './FavouriteBtn.css'
+import { connect } from "react-redux";
+import { saveInRedux, removeFromRedux , saveInList, removeFromList } from '../../redux/action';
+
 
 function FavouriteBtn(props) {
-
   const [ fav, setFav ] = useState(0);
   const [ id, setId ] = useState(props.data.imdbID);
 
@@ -20,38 +22,34 @@ function FavouriteBtn(props) {
 
   const clickHandlder = (e) => {
       const item = e.target.value;
-
       const favValue = 1 - fav;
       setFav(favValue);
 
       if(favValue === 1){
-        // For adding as favourite
-        if(!localStorage.getItem('list')) {
-          localStorage.setItem('list', id);
-        } else{ 
-          let listOfFav = localStorage.getItem('list').split(',');
-          let indexOfFav = listOfFav.indexOf(item);
-          if(indexOfFav < 0) {
-            let newListOfFav = `${localStorage.getItem('list')},${item}`;
-            localStorage.setItem('list', newListOfFav );
-          }
-        }
+        props.saveInList(item);
+        props.saveInRedux(props.data);
         props.addLocal();
       }else{
-        // For removing from favourite
-        let listOfFav = localStorage.getItem('list').split(',')
-        let indexOfFav = listOfFav.indexOf(item);
-        listOfFav.splice(indexOfFav, indexOfFav + 1);
-        let newListOfFav = listOfFav;
-        localStorage.setItem('list', newListOfFav.join(',') )
+        props.removeFromList(item);
+        props.removeFromRedux(id);
         localStorage.removeItem(id);
       }
-
       e.preventDefault();
   }
   return (
-  <button className="btn" value={id} onClick={clickHandlder}>{fav === 1 ? 'Added as favourite' : 'Add as favourite'}</button>
+    <button className="btn" value={id} onClick={clickHandlder}>{fav === 1 ? 'Added as favourite' : 'Add as favourite'}</button>
   );
 }
 
-export default FavouriteBtn;
+const mapStateToProps = state => {
+  return {}
+};
+
+const mapDispatchToProps = dispatch => ({
+  saveInRedux: (data) => dispatch(saveInRedux(data)),
+  removeFromRedux: (id) => dispatch(removeFromRedux(id)),
+  saveInList: (id) => dispatch(saveInList(id)),
+  removeFromList: (id) => dispatch(removeFromList(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavouriteBtn);
