@@ -8,7 +8,7 @@ function Chip(props) {
     let addLocalHandler = async () => {
         localStorage.setItem(props.data.imdbID, JSON.stringify(props.data));
     }
-    
+
     return (
         <div className="chip">
             {props.data.Poster && props.data.Poster != 'N/A' && 
@@ -31,3 +31,4 @@ function Chip(props) {
 }
 
 export default Chip;
+
