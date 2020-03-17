@@ -7,14 +7,15 @@ import FavList from './components/FavList/FavList';
 import Search from './components/Search/Search';
 import Next from './components/Next/Next';
 import Previous from './components/Previous/Previous';
+import { Provider } from "react-redux";
+import configureStore from "../src/redux/configureStore";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
+const store = configureStore();
 
 
 function App() {
   const [data, setData] = useState([]);
-  const [ showFav, setShowFav ] = useState(0);
   const [ count, setCount ] = useState(0);
   const [ page, setPage ] = useState(1);
   const [ searchType, setSearchType ] = useState('');
@@ -41,14 +42,6 @@ function App() {
     }
   }
 
-  let array = []
-
-  async function asyncForEach(array, callback) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-    }
-  }
-
   let nextHandler = async () => {
     searchAPI({
       text: searchText,
@@ -65,55 +58,32 @@ function App() {
     })
   }
 
-  let showFavChanger = async (param) => { 
-    if (param === 1) {
-     if(localStorage.getItem('favourite')) {
-      let favList = localStorage.getItem('favourite').split(',');
-      await asyncForEach(favList, async (id) => {
-        const url = `https://www.omdbapi.com/?i=${id}&apikey=34556779`;
-        const result = await axios(
-            url,
-        );
-        array.push(result.data)
-      });
-      setShowFav(param);
-      setData(array);
-     }else{
-       alert('Nothing saved as Favourite')
-     }
-    }else {
-      setShowFav(param);
-      setData([])
-    }
-  }
-  
   return (
-
-    <div className='App'>
-      <Header/>
-    <Router>
-        <Switch>
-          <Route path="/fav">
-            <FavList showFavCallback={showFavChanger} showFav={showFav} data={data} count={count} page={page}/>
-          </Route>
-          <Route path="/">
+    <Provider store={store}>
+      <div className='App'>
+        <Header/>
+        <Router>
+            <Switch>
+              <Route path="/favourites">
+                <FavList/>
+              </Route>
+              <Route path="/">
                 <div className='container'>
-                  {showFav === 0 &&
-                    <Search onSearchMovie={searchAPI}/>
-                  }
-                  <List showFav={showFav} data={data} count={count} page={page}/>
+                  <Search onSearchMovie={searchAPI}/>
+                  <List data={data}/>
                 </div>
                 { count > page*10 &&
                   <div className='page-button'>
-                    <Next onNext={nextHandler} disable={page > count/10} page={page}/>
+                    <Next onNext={nextHandler} disable={page > count/10}/>
                     <label>Page no- {page} </label>
-                    <Previous onPrevious={previousHandler} disable={page === 1} page={page}/>
+                    <Previous onPrevious={previousHandler} disable={page === 1}/>
                   </div>
                 }
-          </Route>
-        </Switch>
-    </Router>
-    </div>
+              </Route>
+            </Switch>
+        </Router>
+      </div>
+    </Provider>
   );
 }
 
