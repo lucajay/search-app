@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Next.css';
 
 function Next(props) {
-  const [ page, setPage ] = useState(0);
 
   let handleNext = function (e) {
     props.onNext();
