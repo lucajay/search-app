@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Previous.css';
 
 function Previous(props) {
-  const [ page, setPage ] = useState(0);
 
   let handlePrevious = function (e) {
     props.onPrevious();
