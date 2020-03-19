@@ -1,9 +1,0 @@
-.container {
-    text-align: -webkit-center;
-}
-.chip-container {
-    flex-direction: column;
-    margin-top: 6%;
-    display: flex;
-    max-width: fit-content;
-}
