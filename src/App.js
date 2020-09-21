@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import List from './components/List/List';
 import FavList from './components/FavList/FavList';
+import SingleItem from './components/SingleItem/SingleItem';
 import Search from './components/Search/Search';
 import Next from './components/Next/Next';
 import Previous from './components/Previous/Previous';
@@ -67,6 +68,11 @@ function App() {
               <Route path="/favourites">
                 <FavList/>
               </Route>
+              {data.map((item)=>
+                <Route path={item.imdbID}>
+                  <SingleItem favList={item}/>
+                </Route>
+              )}
               <Route path="/">
                 <div className='container'>
                   <Search onSearchMovie={searchAPI}/>
